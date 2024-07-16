@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const UserRequest = () => {
 
 
     const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
 
-    const { data: pendingUsers = [] } = useQuery({
+    const { data: pendingUsers = [] , refetch} = useQuery({
         queryKey: ['pendingUser'],
         queryFn: async () => {
             const res = await axiosSecure.get(`/userRequest`);
@@ -16,6 +18,16 @@ const UserRequest = () => {
     })
 
     console.log(pendingUsers);
+
+
+    const handleActivate = async (email) =>{
+        const res = await axiosPublic.patch(`/userRequest?email=${email}`);
+        console.log(res.data);
+
+        if(res.data.modifiedCount){
+            refetch();
+        }
+    }
 
 
 
@@ -63,13 +75,15 @@ const UserRequest = () => {
                                 </td>
                                 <td></td>
                                 <td className="p-3 text-right">
-                                    <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-600 dark:text-gray-50">
-                                        <span>Activate</span>
-                                    </span>
+                                    <button onClick={() => handleActivate(user?.email)}>
+                                        <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-600 dark:text-gray-50">
+                                            <span>Activate</span>
+                                        </span>
+                                    </button>
                                 </td>
                             </tr>)
                         }
-                        
+
                     </tbody>
                 </table>
             </div>
