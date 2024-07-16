@@ -1,10 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../provider/UserProvider";
 
 const Login = () => {
 
-    // const userProvider
+    const { login } = useContext(AuthContext);
 
     const [pinError, setPinError] = useState(null)
     const [credentialError, setCredentialError] = useState(null)
@@ -27,16 +28,30 @@ const Login = () => {
 
         console.log(loginInfo);
 
-        const res = await axiosPublic.get(`/login?emailOrNumber=${emailOrNumber}&pin=${pin}`)
-        console.log(res.data);
+        const res= await login(emailOrNumber, pin)
+        console.log('response from login page', res);
 
-        if(res.data.user){
-            if(res.data.pin){
-                navigate('/dashboard/userHome');
-            }
-            else{
-                setPinError('Invalid Pin')
-            }
+
+        // const res = await axiosPublic.get(`/login?emailOrNumber=${emailOrNumber}&pin=${pin}`)
+        // console.log(res.data);
+
+        // if(res.data.user){
+        //     if(res.data.pin){
+        //         navigate('/dashboard/userHome');
+        //     }
+        //     else{
+        //         setPinError('Invalid Pin')
+        //     }
+        // }
+        // else{
+        //     setCredentialError('Invalid credential')
+        // }
+
+        if(res.token){
+            navigate('/dashboard/userHome');
+        }
+        else if(res.user && !res.pin){
+            setPinError('Invalid Pin')
         }
         else{
             setCredentialError('Invalid credential')
@@ -89,9 +104,10 @@ const Login = () => {
 
                                 <input type="submit" value="Login" className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg md:w-1/2 hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50" />
 
-                                <a href="#" className="inline-block mt-4 text-center text-blue-500 md:mt-0 md:mx-6 hover:underline dark:text-blue-400">
+                                {/* <a href="#" className="inline-block mt-4 text-center text-blue-500 md:mt-0 md:mx-6 hover:underline dark:text-blue-400">
                                     Forgot your password?
-                                </a>
+                                </a> */}
+                                <Link to='/register' className="inline-block mt-4 text-center text-blue-500 md:mt-0 md:mx-6 hover:underline dark:text-blue-400">Register</Link>
                             </div>
                         </form>
                     </div>
