@@ -5,7 +5,7 @@ const useUserInfo = () => {
 
     const axiosSecure = useAxiosSecure();
 
-    const { data: user = {} } = useQuery({
+    const { data: user = {} , refetch} = useQuery({
         queryKey: ['userInfo'],
         queryFn: async () => {
             const res = await axiosSecure.get(`/user?credential=${localStorage.credential}`);
@@ -16,7 +16,7 @@ const useUserInfo = () => {
 
     console.log(user);
 
-    return user;
+    return [user, refetch];
 };
 
 export default useUserInfo;

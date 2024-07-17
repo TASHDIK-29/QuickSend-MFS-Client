@@ -36,7 +36,7 @@ const DashboardLayout = () => {
 
     // console.log(user);
 
-    const user = useUserInfo();
+    const [user] = useUserInfo();
 
     return (
         <div className="flex">
@@ -70,7 +70,7 @@ const DashboardLayout = () => {
                     <button onClick={handelLogout} className="text-white font-bold">Logout</button>
                 </div>
             </aside>
-            <div className="flex-1">
+            <div className="flex-1 ">
                 <Outlet></Outlet>
             </div>
         </div>
