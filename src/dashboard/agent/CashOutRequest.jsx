@@ -1,52 +1,52 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useUserInfo from "../../hooks/useUserInfo";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 
-const CashInRequest = () => {
+const CashOutRequest = () => {
 
     const axiosSecure = useAxiosSecure();
 
     const [user, refetch] = useUserInfo();
 
-    const { data: cashInRequests = [], refetch: reload} = useQuery({
-        queryKey: ['cashInRequest'],
+    const { data: cashOutRequests = [], refetch: reload } = useQuery({
+        queryKey: ['cashOutRequest'],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/cashInRequest?agentNumber=${user.phone}`);
+            const res = await axiosSecure.get(`/cashOutRequest?agentNumber=${user.phone}`);
 
             return res.data;
         }
     })
 
-    console.log(cashInRequests);
+    console.log(cashOutRequests);
 
 
-    const handelAccept = async (id) =>{
-        const res2 = await axiosSecure.patch(`/cashInAccept?id=${id}`)
+    const handelAccept = async (id) => {
+        const res2 = await axiosSecure.patch(`/cashOutAccept?id=${id}`)
 
         console.log(res2.data);
 
-        if(!res2.data.balance){
+        if (!res2.data.balance) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: "Insufficient Balance !!",
-              });
+            });
         }
-        else{
+        else {
             refetch();
             reload();
             Swal.fire({
                 position: "top-center",
                 icon: "success",
-                title: "Cash In Successful",
+                title: "Cash Out Successful",
                 showConfirmButton: false,
-                timer: 2000
-              });
+                timer: 2500
+            });
         }
     }
 
-    // console.log(user);
+
     return (
         <div className="container p-2 mx-auto sm:p-4 dark:text-gray-800">
             <h2 className="mb-4 text-2xl font-semibold leading-tight">Invoices</h2>
@@ -73,7 +73,7 @@ const CashInRequest = () => {
                     <tbody>
 
                         {
-                            cashInRequests.map(request => <tr key={request._id} className="border-b border-opacity-20 dark:border-gray-300 dark:bg-gray-50">
+                            cashOutRequests.map(request => <tr key={request._id} className="border-b border-opacity-20 dark:border-gray-300 dark:bg-gray-50">
                                 <td className="p-3">
                                     <p>{request?._id}</p>
                                 </td>
@@ -104,4 +104,4 @@ const CashInRequest = () => {
     );
 };
 
-export default CashInRequest;
+export default CashOutRequest;

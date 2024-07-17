@@ -4,7 +4,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 
-const CashIn = () => {
+const CashOut = () => {
 
 
     const axiosSecure = useAxiosSecure();
@@ -31,29 +31,36 @@ const CashIn = () => {
 
         console.log({ userNumber, agentNumber, amount, pin });
 
-        const res = await axiosSecure.post('/cashInRequest', { userNumber, agentNumber, amount, pin });
+        if (user?.balance > amount) {
+            const res = await axiosSecure.post('/cashOutRequest', { userNumber, agentNumber, amount, pin });
 
-        console.log(res.data);
+            console.log(res.data);
 
-        if (res.data.insertedId) {
-            Swal.fire({
-                position: "top-center",
-                icon: "success",
-                title: "Your cash in request send successfully",
-                showConfirmButton: false,
-                timer: 1500
-            });
+            if (res.data.insertedId) {
+                Swal.fire({
+                    position: "top-center",
+                    icon: "success",
+                    title: "Your cash out request send successfully",
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+            }
+            if (res.data.pin && !res.data.agent) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Invalid Agent.",
+                });
+            }
+            if (!res.data.pin && !res.data.insertedId) {
+                setPinError('Invalid Pin')
+            }
         }
-        if (res.data.pin && !res.data.agent) {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Invalid Agent.",
-            });
+        else{
+            setAmountError('Insufficient Balance')
         }
-        if (!res.data.pin && !res.data.insertedId) {
-            setPinError('Invalid Pin')
-        }
+
+
     }
 
 
@@ -61,7 +68,7 @@ const CashIn = () => {
         <div className="relative size-full bg-slate-950">
             <div className="flex items-center border min-h-screen absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_90%_at_50%_0%,#000_70%,transparent_100%)]">
                 <section className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
-                    <h2 className="text-lg font-semibold text-gray-700 capitalize dark:text-white">Cash In</h2>
+                    <h2 className="text-lg font-semibold text-gray-700 capitalize dark:text-white">Cash Out</h2>
 
                     <form onSubmit={handelSend}>
                         <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
@@ -99,4 +106,4 @@ const CashIn = () => {
     );
 };
 
-export default CashIn;
+export default CashOut;

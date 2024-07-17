@@ -11,6 +11,8 @@ import AgentRequest from "../dashboard/admin/AgentRequest";
 import SendMoney from "../dashboard/user/SendMoney";
 import CashIn from "../dashboard/user/CashIn";
 import CashInRequest from "../dashboard/agent/CashInRequest";
+import CashOut from "../dashboard/user/CashOut";
+import CashOutRequest from "../dashboard/agent/CashOutRequest";
 
 
 export const router = createBrowserRouter([
@@ -45,6 +47,10 @@ export const router = createBrowserRouter([
           path: 'cashIn',
           element: <CashIn></CashIn>
         },
+        {
+          path: 'cashOut',
+          element: <CashOut></CashOut>
+        },
 
         // Admin
         {
@@ -60,6 +66,10 @@ export const router = createBrowserRouter([
         {
           path: 'cashInRequest',
           element: <CashInRequest></CashInRequest>
+        },
+        {
+          path: 'cashOutRequest',
+          element: <CashOutRequest></CashOutRequest>
         },
         
       ]
