@@ -9,6 +9,8 @@ import UserHome from "../dashboard/user/UserHome";
 import UserRequest from "../dashboard/admin/UserRequest";
 import AgentRequest from "../dashboard/admin/AgentRequest";
 import SendMoney from "../dashboard/user/SendMoney";
+import CashIn from "../dashboard/user/CashIn";
+import CashInRequest from "../dashboard/agent/CashInRequest";
 
 
 export const router = createBrowserRouter([
@@ -39,6 +41,10 @@ export const router = createBrowserRouter([
           path: 'sendMoney',
           element: <SendMoney></SendMoney>
         },
+        {
+          path: 'cashIn',
+          element: <CashIn></CashIn>
+        },
 
         // Admin
         {
@@ -49,6 +55,13 @@ export const router = createBrowserRouter([
           path: 'agentRequest',
           element: <AgentRequest></AgentRequest>
         },
+
+        // Agent
+        {
+          path: 'cashInRequest',
+          element: <CashInRequest></CashInRequest>
+        },
+        
       ]
     }
   ]);  
