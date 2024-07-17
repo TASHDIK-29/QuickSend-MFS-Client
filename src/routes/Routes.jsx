@@ -8,6 +8,7 @@ import DashboardLayout from "../layout/DashboardLayout";
 import UserHome from "../dashboard/user/UserHome";
 import UserRequest from "../dashboard/admin/UserRequest";
 import AgentRequest from "../dashboard/admin/AgentRequest";
+import SendMoney from "../dashboard/user/SendMoney";
 
 
 export const router = createBrowserRouter([
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
         {
           path: 'userHome',
           element: <UserHome></UserHome>
+        },
+        {
+          path: 'sendMoney',
+          element: <SendMoney></SendMoney>
         },
 
         // Admin

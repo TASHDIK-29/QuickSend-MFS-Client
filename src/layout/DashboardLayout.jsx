@@ -7,6 +7,7 @@ import { AuthContext } from "../provider/UserProvider";
 import UserNav from "../components/dashboard/UserNav";
 import AdminNav from "../components/dashboard/AdminNav";
 import AgentNav from "../components/dashboard/AgentNav";
+import useUserInfo from "../hooks/useUserInfo";
 
 
 const DashboardLayout = () => {
@@ -22,18 +23,20 @@ const DashboardLayout = () => {
     }
 
 
-    const axiosSecure = useAxiosSecure();
+    // const axiosSecure = useAxiosSecure();
 
-    const { data: user = {} } = useQuery({
-        queryKey: ['userInfo'],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/user?credential=${localStorage.credential}`);
+    // const { data: user = {} } = useQuery({
+    //     queryKey: ['userInfo'],
+    //     queryFn: async () => {
+    //         const res = await axiosSecure.get(`/user?credential=${localStorage.credential}`);
 
-            return res.data;
-        }
-    })
+    //         return res.data;
+    //     }
+    // })
 
-    console.log(user);
+    // console.log(user);
+
+    const user = useUserInfo();
 
     return (
         <div className="flex">
@@ -67,7 +70,7 @@ const DashboardLayout = () => {
                     <button onClick={handelLogout} className="text-white font-bold">Logout</button>
                 </div>
             </aside>
-            <div className="flex-1 border border-red-500">
+            <div className="flex-1">
                 <Outlet></Outlet>
             </div>
         </div>
