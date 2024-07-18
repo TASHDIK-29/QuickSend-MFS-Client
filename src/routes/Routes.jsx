@@ -13,6 +13,8 @@ import CashIn from "../dashboard/user/CashIn";
 import CashInRequest from "../dashboard/agent/CashInRequest";
 import CashOut from "../dashboard/user/CashOut";
 import CashOutRequest from "../dashboard/agent/CashOutRequest";
+import AdminHome from "../dashboard/admin/AdminHome";
+import AgentHome from "../dashboard/agent/AgentHome";
 
 
 export const router = createBrowserRouter([
@@ -54,6 +56,10 @@ export const router = createBrowserRouter([
 
         // Admin
         {
+          path: 'adminHome',
+          element: <AdminHome></AdminHome>
+        },
+        {
           path: 'userRequest',
           element: <UserRequest></UserRequest>
         },
@@ -63,6 +69,10 @@ export const router = createBrowserRouter([
         },
 
         // Agent
+        {
+          path: 'agentHome',
+          element: <AgentHome></AgentHome>
+        },
         {
           path: 'cashInRequest',
           element: <CashInRequest></CashInRequest>

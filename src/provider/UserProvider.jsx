@@ -27,6 +27,7 @@ const AuthProvider = ({ children }) => {
   const login = async (emailOrNumber, pin) => {
     const response = await axiosPublic.post('/login', { emailOrNumber, pin });
     localStorage.setItem('token', response.data.token);
+    localStorage.setItem('type', response.data.type);
     localStorage.setItem('credential', emailOrNumber);
     // setUser({ credential: emailOrNumber });
 
@@ -40,6 +41,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('credential');
+    localStorage.removeItem('type');
     setUser(null);
   };
 
